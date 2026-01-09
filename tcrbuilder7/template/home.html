@@ -1,0 +1,383 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <title>TCR Builders | Excellence in Construction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind Framework -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#003366',
+            accent: '#d4a017',
+            slate: '#1e293b',
+            google: '#202124',
+          },
+          letterSpacing: {
+            'ultra': '0.3em',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- External Resources - Public CDN for working icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      -webkit-font-smoothing: antialiased;
+    }
+    .serif { font-family: 'Playfair Display', serif; }
+
+    /* Navbar transitions - Purely transparent */
+    .navbar {
+        transition: all 0.4s ease;
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    .navbar.scrolled {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      padding: 0.8rem 0;
+      background: transparent !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+
+    /* Blended Service Icons Logic */
+    .service-card {
+      background: transparent !important;
+      border: none !important;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .service-card:hover {
+      transform: translateY(-12px);
+    }
+
+    .service-card img {
+        transition: transform 0.8s ease;
+        mix-blend-mode: multiply;
+    }
+
+    .service-card:hover img { transform: scale(1.05); }
+
+    .projects-track { display: flex; transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1); }
+    .project-slide { min-width: 100%; }
+
+    #navLinks a { outline: none !important; }
+    * { border-radius: 0 !important; }
+  </style>
+</head>
+
+<body class="overflow-x-hidden">
+  <!-- Navbar -->
+  <header id="navbar" class="fixed top-0 left-0 w-full z-[1000] navbar py-6">
+    <nav class="max-w-7xl mx-auto px-8 flex items-center">
+      <div class="flex-1">
+        <a href="#home" class="flex items-center gap-3 w-max">
+          <img src="{% static 'images/pixelcut-export.png' %}" alt="Logo" class="h-8">
+          <span class="text-xl font-bold tracking-tighter text-white transition-colors" id="navLogo">TCR BUILDERS</span>
+        </a>
+      </div>
+
+      <div class="hidden lg:flex items-center justify-center gap-8 text-[8px] font-bold uppercase tracking-ultra text-white" id="navLinks">
+        <a href="#home" class="hover:opacity-70 transition-opacity">Home</a>
+        <a href="#about" class="hover:opacity-70 transition-opacity">About</a>
+
+        <!-- SERVICES DROPDOWN START - Linked to separate pages -->
+        <div class="relative group py-2">
+          <a href="#" class="hover:opacity-70 transition-opacity flex items-center gap-1">Services <i class="fas fa-chevron-down text-[6px]"></i></a>
+          <div class="absolute left-1/2 -translate-x-1/2 top-full hidden group-hover:block bg-primary min-w-[180px] shadow-2xl py-4 z-[1100]">
+            <a href="{% url 'planning' %}" class="block px-6 py-3 hover:bg-white/10 transition-colors">Planning</a>
+            <a href="{% url 'construction' %}" class="block px-6 py-3 hover:bg-white/10 transition-colors">Construction</a>
+            <a href="{% url 'interior' %}" class="block px-6 py-3 hover:bg-white/10 transition-colors">Interior Designing</a>
+            <a href="{% url 'exterior' %}" class="block px-6 py-3 hover:bg-white/10 transition-colors">Exterior Designing</a>
+          </div>
+        </div>
+        <!-- SERVICES DROPDOWN END -->
+
+        <a href="#projects" class="hover:opacity-70 transition-opacity">Projects</a>
+        <a href="#contact" class="hover:opacity-70 transition-opacity">Contact</a>
+      </div>
+
+      <div class="flex-1 flex justify-end">
+        <button id="mobileMenuBtn" class="lg:hidden text-white text-2xl transition-colors"><i class="fas fa-bars"></i></button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div id="menuOverlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[1001] hidden"></div>
+  <div id="mobileMenu" class="fixed top-0 right-[-100%] w-full max-w-sm h-full bg-white z-[1002] transition-all duration-500 p-12">
+    <button id="closeMenuBtn" class="self-end text-2xl text-slate mb-12"><i class="fas fa-times"></i></button>
+    <nav class="flex flex-col gap-8 text-xs font-bold uppercase tracking-ultra">
+      <a href="#home" onclick="toggleMenu(false)">Home</a>
+      <a href="#about" onclick="toggleMenu(false)">About</a>
+      <a href="#services" onclick="toggleMenu(false)">Services</a>
+      <a href="#projects" onclick="toggleMenu(false)">Projects</a>
+      <a href="#contact" onclick="toggleMenu(false)">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Hero Section -->
+  <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
+      <source src="{% static 'videos/construction.mp4' %}" type="video/mp4">
+    </video>
+    <div class="absolute inset-0 bg-gradient-to-r from-primary/80 to-black/40"></div>
+    <div class="relative z-10 max-w-5xl px-8 text-center" data-aos="zoom-out" data-aos-duration="2000">
+      <h1 class="text-5xl sm:text-7xl lg:text-8xl font-bold text-white mb-8 serif leading-tight">Crafting Legacies In <br><span class="text-accent underline decoration-white/20 underline-offset-8">Precision</span></h1>
+      <p class="text-lg text-white/70 mb-10 max-w-2xl mx-auto font-light">Architectural excellence and structural integrity across every project.</p>
+      <a href="#contact" class="inline-block bg-primary text-white px-10 py-5 font-bold uppercase tracking-ultra text-[9px] hover:bg-accent transition-all shadow-2xl">Discover Expertise</a>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="relative overflow-hidden h-screen flex items-center justify-center">
+    <img src="{% static 'images/aboutimgbg77.png' %}" class="absolute inset-0 w-full h-full object-cover" alt="Background">
+    <div class="absolute inset-0 bg-primary/50"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-8 w-full">
+      <div class="grid lg:grid-cols-2 items-center gap-12 lg:gap-24">
+        <div class="flex justify-center" data-aos="fade-right">
+          <div class="relative w-full max-w-lg">
+            <div class="aspect-[4/3] overflow-hidden shadow-2xl border border-white/10">
+              <img src="{% static 'images/sebintcrbuildersaboutimg.jpg' %}" alt="Our Office" class="w-full h-full object-cover">
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col items-center text-center w-full" data-aos="fade-left">
+          <h2 class="text-accent font-bold uppercase tracking-ultra text-[10px] mb-4">Our History</h2>
+          <h3 class="text-6xl font-bold text-white mb-8 serif leading-tight transition-colors">Quality Without <br>Compromise</h3>
+          <p class="text-white/80 text-lg mb-12 leading-relaxed max-w-xl">At TCR Builders, we deliver top-tier construction and design solutions with surgical attention to detail. Every project we undertake is a testament to our commitment to structural integrity and architectural beauty.</p>
+          <div class="space-y-4 font-semibold text-white/90 text-sm">
+            <p>Over a decade of excellence in engineering.</p>
+            <p>Unwavering commitment to safety and quality.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Section -->
+  <section id="projects" class="relative overflow-hidden h-screen py-12 flex items-center justify-center">
+    <img src="{% static 'images/servicebgtcrbuilders1.png' %}" class="absolute inset-0 w-full h-full object-cover" alt="Background">
+    <div class="absolute inset-0 bg-primary/50"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-8 w-full text-left">
+      <div class="mb-8">
+        <h3 class="text-4xl font-bold text-white serif">Portfolio</h3>
+      </div>
+
+      <div class="relative overflow-hidden shadow-2xl">
+        <div class="projects-track" id="projectsTrack">
+          {% for project in projects %}
+          <div class="project-slide flex flex-col md:flex-row items-stretch">
+            <div class="md:w-1/2 aspect-[4/3] overflow-hidden border border-white/10">
+                <img src="{{ project.image.url }}" class="w-full h-full object-cover">
+            </div>
+            <div class="md:w-1/2 p-8 flex flex-col justify-center bg-primary/40 text-left border-y border-r border-white/5">
+              <span class="text-[9px] font-bold uppercase tracking-[0.4em] text-accent mb-2">{{ project.location }}</span>
+              <h3 class="text-4xl font-bold text-white mb-3 serif">{{ project.name }}</h3>
+              <p class="text-white/70 text-sm leading-relaxed mb-4">{{ project.description }}</p>
+
+              {% if project.has_review %}
+              <div class="bg-google p-5 text-left relative mt-2 border border-white/5">
+                  <div class="flex items-start gap-4 mb-4">
+                      <div class="w-12 h-12 bg-primary flex items-center justify-center text-white font-bold text-lg rounded-full">
+                          {% if project.reviewer_name %}{{ project.reviewer_name|slice:":1"|upper }}{% else %}U{% endif %}
+                      </div>
+                      <div>
+                          <h4 class="font-semibold text-white text-lg leading-tight">{{ project.reviewer_name }}</h4>
+                          <p class="text-slate-400 text-xs mt-1">Verified Owner</p>
+                      </div>
+                      <div class="ml-auto text-slate-500"><i class="fas fa-ellipsis-v"></i></div>
+                  </div>
+                  <div class="flex items-center gap-2 mb-4">
+                      <div class="flex text-accent gap-0.5">
+                          {% for i in "12345"|make_list %}<i class="fas fa-star text-[10px]"></i>{% endfor %}
+                      </div>
+                      <span class="text-slate-500 text-xs uppercase tracking-widest font-medium">Recently</span>
+                  </div>
+                  <p class="text-slate-300 text-sm leading-relaxed mb-6">{{ project.review_text }}</p>
+                  <div class="flex items-center gap-8 pt-4 border-t border-white/5">
+                      <i class="far fa-heart text-slate-400 text-sm hover:text-red-500 cursor-pointer transition-colors"></i>
+                      <i class="fas fa-share-nodes text-slate-400 text-sm hover:text-white cursor-pointer transition-colors"></i>
+                  </div>
+              </div>
+              {% else %}
+              <div class="mt-4 pt-6 border-t border-slate-100">
+                <button onclick="openRatingModal('{{ project.id }}', '{{ project.name }}')" class="text-[9px] font-bold uppercase tracking-widest text-primary underline underline-offset-4">Owner? Leave a review</button>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rating Verification Modal -->
+  <div id="ratingModal" class="fixed inset-0 z-[2000] hidden flex items-center justify-center bg-primary/25 backdrop-blur-md px-6">
+    <div class="bg-white w-full max-w-md p-10 shadow-2xl relative">
+        <button onclick="closeRatingModal()" class="absolute top-6 right-6 text-slate/40 hover:text-primary transition-colors"><i class="fas fa-times"></i></button>
+        <h4 class="serif text-2xl text-primary mb-1">Owner Review</h4>
+        <p id="modalProjectName" class="text-[10px] uppercase tracking-widest text-accent mb-8"></p>
+        <form id="ratingForm" method="POST" action="">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Full Name" required class="w-full p-4 text-xs bg-slate-50 mb-4 outline-none border-none">
+            <input type="email" name="email" placeholder="Registered Owner Email" required class="w-full p-4 text-xs bg-slate-50 mb-4 outline-none border-none">
+            <div class="flex gap-3 mb-6">
+                <input type="hidden" name="rating" id="selectedRating" value="5">
+                {% for i in "12345" %}<i class="fas fa-star cursor-pointer text-slate-200 star-btn" onclick="setStar({{ i }})"></i>{% endfor %}
+            </div>
+            <textarea name="review" placeholder="Tell us about your experience..." rows="3" required class="w-full p-4 text-xs bg-slate-50 mb-6 outline-none border-none resize-none"></textarea>
+            <button type="submit" class="w-full bg-primary text-white py-4 font-bold uppercase text-[9px] tracking-ultra hover:bg-accent transition-all">Submit Review</button>
+        </form>
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <section id="contact" class="relative h-screen overflow-hidden flex items-center justify-center">
+    <img src="{% static 'images/tcrbuilderscontactformbg.jpg' %}" class="absolute inset-0 w-full h-full object-cover" alt="Background">
+    <div class="absolute inset-0 bg-primary/45 backdrop-blur-[1px]"></div>
+
+    <div class="relative z-10 max-w-xl mx-auto px-8 text-center">
+      <h2 class="text-accent font-bold uppercase tracking-ultra text-[10px] mb-2">Consultation</h2>
+      <h3 class="text-5xl font-bold text-white serif mb-8">Start Your Project</h3>
+
+      <form id="contactForm" method="POST" action="{% url 'contact' %}#contact" class="grid gap-4">
+        {% csrf_token %}
+        <div class="grid sm:grid-cols-2 gap-4">
+          <input type="text" name="name" placeholder="Name" required class="bg-white w-full p-4 text-sm outline-none border-none">
+          <input type="email" name="email" placeholder="Email" required class="bg-white w-full p-4 text-sm outline-none border-none">
+        </div>
+        <textarea name="message" placeholder="Details" rows="4" required class="bg-white w-full p-4 text-sm outline-none border-none resize-none"></textarea>
+        <button type="submit" class="bg-primary text-white font-bold py-4 uppercase tracking-ultra text-[10px] hover:bg-primary/90 transition-all active:scale-95 shadow-xl">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-primary text-white pt-16 pb-8 text-left">
+    <div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12 text-left">
+      <div>
+        <div class="flex items-center gap-3 mb-6">
+          <img src="{% static 'images/pixelcut-export.png' %}" alt="Logo" class="h-8">
+          <span class="text-lg font-bold tracking-tighter serif uppercase text-white">TCR Builders</span>
+        </div>
+        <p class="text-white/40 text-[11px]">Architectural precision across India.</p>
+      </div>
+
+      <div>
+        <h4 class="text-[10px] font-bold uppercase tracking-ultra mb-6 text-accent">Quick Links</h4>
+        <ul class="space-y-3 text-[11px] text-white/50">
+          <li><a href="#home" class="hover:text-white transition-colors">Home</a></li>
+          <li><a href="#about" class="hover:text-white transition-colors">About</a></li>
+          <li><a href="#about" class="hover:text-white transition-colors">Services</a></li>
+          <li><a href="#projects" class="hover:text-white transition-colors">Projects</a></li>
+          <li><a href="#about" class="hover:text-white transition-colors">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Column -->
+      <div>
+        <h4 class="text-[10px] font-bold uppercase tracking-ultra mb-6 text-accent">Contact</h4>
+        <ul class="space-y-3 text-[11px] text-white/60">
+          <li><a href="tel:+918138008446" class="hover:text-white flex items-center gap-3"><i class="fas fa-phone text-white/40"></i> +91 8138008446</a></li>
+          <li><a href="mailto:tcrbuildersinteriors@gmail.com" class="hover:text-white flex items-center gap-3"><i class="fas fa-envelope text-white/40"></i> tcrbuildersinteriors@gmail.com</a></li>
+          <li><a href="https://maps.app.goo.gl/NWsZ84NeTpJi7kGF9?g_st=aw" target="_blank" class="hover:text-white flex items-center gap-3"><i class="fas fa-location-dot text-white/40"></i> Visit Us</a></li>
+        </ul>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h4 class="text-[10px] font-bold uppercase tracking-ultra text-accent">Connect</h4>
+        <div class="flex gap-4">
+          <a href="https://www.facebook.com/share/p/1GuLaksBgW/" target="_blank" class="text-white/40 hover:text-white text-xl transition-colors"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/tcr_builders?igsh=MWp3ZDdmNGt1bG10cg==" target="_blank" class="text-white/40 hover:text-white text-xl transition-colors"><i class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/918138008446" target="_blank" class="text-white/40 hover:text-white text-xl transition-colors"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-8 pt-8 border-t border-white/5 text-center">
+      <p class="text-[9px] uppercase tracking-[0.4em] text-white/20">© {% now "Y" %} TCR Builders. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1200, once: true, easing: 'ease-out-quad' });
+
+    function openRatingModal(id, name) {
+        document.getElementById('modalProjectName').innerText = name;
+        document.getElementById('ratingForm').action = "/rate/" + id + "/";
+        document.getElementById('ratingModal').classList.remove('hidden');
+    }
+    function closeRatingModal() { document.getElementById('ratingModal').classList.add('hidden'); }
+
+    function setStar(val) {
+        document.getElementById('selectedRating').value = val;
+        const stars = document.querySelectorAll('.star-btn');
+        stars.forEach((s, i) => {
+            if(i < val) s.classList.replace('text-slate-200', 'text-accent');
+            else s.classList.replace('text-accent', 'text-slate-200');
+        });
+    }
+
+    function updateNav() {
+      const nav = document.getElementById('navbar');
+      if (!nav) return;
+    }
+
+    window.addEventListener('scroll', updateNav);
+    window.addEventListener('DOMContentLoaded', updateNav);
+
+    const toggleMenu = (active) => {
+      document.getElementById('mobileMenu').style.right = active ? '0' : '-100%';
+      document.getElementById('menuOverlay').classList.toggle('hidden', !active);
+    };
+
+    document.getElementById('mobileMenuBtn').onclick = () => toggleMenu(true);
+    document.getElementById('closeMenuBtn').onclick = () => toggleMenu(false);
+
+    (function() {
+      const track = document.getElementById('projectsTrack');
+      const slides = track ? Array.from(track.children) : [];
+      let current = 0;
+      function update() {
+        if (!slides.length) return;
+        track.style.transform = `translateX(-${current * 100}%)`;
+      }
+      setInterval(() => {
+        if (!slides.length) return;
+        current = (current + 1) % slides.length;
+        update();
+      }, 5000);
+    })();
+  </script>
+</body>
+</html>

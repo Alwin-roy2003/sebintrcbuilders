@@ -1,0 +1,175 @@
+{% load static %}
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <title>Interior Designing | TCR Builders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { primary: '#003366', accent: '#d4a017', slate: '#1e293b' }, letterSpacing: { 'ultra': '0.3em' } } }
+    }
+  </script>
+  <!-- External Resources -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    html, body { max-width: 100%; overflow-x: hidden; }
+    body { font-family: 'Inter', sans-serif; color: #1e293b; background: #ffffff; -webkit-font-smoothing: antialiased; }
+    .serif { font-family: 'Playfair Display', serif; }
+
+    /* Navbar transitions */
+    .navbar { transition: all 0.4s ease; background: #003366 !important; box-shadow: none !important; border: none !important; }
+    .navbar.scrolled { backdrop-filter: blur(10px); padding: 0.8rem 0; background: rgba(0, 51, 102, 0.95) !important; }
+
+    * { border-radius: 0 !important; }
+
+    .interior-card { transition: all 0.5s ease; border: 1px solid #f1f5f9; }
+    .interior-card:hover { transform: translateY(-10px); border-color: #d4a017; box-shadow: 0 20px 40px -20px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+  <!-- Navbar (Identical to Home) -->
+  <header id="navbar" class="fixed top-0 left-0 w-full z-[1000] navbar py-6">
+    <nav class="max-w-7xl mx-auto px-8 flex items-center">
+      <div class="flex-1">
+        <a href="/" class="flex items-center gap-3 w-max">
+          <img src="{% static 'images/pixelcut-export.png' %}" alt="Logo" class="h-8">
+          <span class="text-xl font-bold tracking-tighter text-white transition-colors">TCR BUILDERS</span>
+        </a>
+      </div>
+      <div class="hidden lg:flex items-center justify-center gap-8 text-[8px] font-bold uppercase tracking-ultra text-white" id="navLinks">
+        <a href="/" class="hover:opacity-70 transition-opacity">Home</a>
+        <a href="/#about" class="hover:opacity-70 transition-opacity">About</a>
+        <div class="relative group py-2">
+          <a href="#" class="hover:opacity-70 transition-opacity flex items-center gap-1 underline underline-offset-4">Services <i class="fas fa-chevron-down text-[6px]"></i></a>
+          <div class="absolute left-1/2 -translate-x-1/2 top-full hidden group-hover:block bg-primary min-w-[180px] shadow-2xl py-4 z-[1100]">
+            <a href="{% url 'planning' %}" class="block px-6 py-3 hover:bg-white/10 transition-colors">Planning</a>
+            <a href="{% url 'construction' %}" class="block px-6 py-3 hover:bg-white/10 transition-colors">Construction</a>
+            <a href="{% url 'interior' %}" class="block px-6 py-3 hover:bg-white/10 transition-colors">Interior Designing</a>
+            <a href="{% url 'exterior' %}" class="block px-6 py-3 hover:bg-white/10 transition-colors">Exterior Designing</a>
+          </div>
+        </div>
+        <a href="/#projects" class="hover:opacity-70 transition-opacity">Projects</a>
+        <a href="/#contact" class="hover:opacity-70 transition-opacity">Contact</a>
+      </div>
+      <div class="flex-1 flex justify-end"><button class="lg:hidden text-white text-2xl"><i class="fas fa-bars"></i></button></div>
+    </nav>
+  </header>
+
+  <!-- Hero Content -->
+  <section class="relative h-[80vh] flex items-center justify-center overflow-hidden">
+    <img src="{% static 'images/sebintcr0011.jpg' %}" class="absolute inset-0 w-full h-full object-cover" alt="Interior">
+    <div class="absolute inset-0 bg-primary/70"></div>
+    <div class="relative z-10 max-w-4xl mx-auto px-8 text-center" data-aos="fade-up">
+      <h2 class="text-accent font-bold uppercase tracking-ultra text-[10px] mb-4">Phase 03</h2>
+      <h1 class="text-7xl text-white serif mb-8 leading-tight">Artistic <br>Interiors</h1>
+      <p class="text-white/70 text-lg leading-relaxed max-w-2xl mx-auto font-light">Transforming spaces into experiences. We create bespoke living environments that perfectly align with your aesthetic and functional needs.</p>
+    </div>
+  </section>
+
+  <!-- Interior Philosophy -->
+  <section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-8">
+        <div class="grid lg:grid-cols-2 items-center gap-20">
+            <div data-aos="fade-right">
+                <h2 class="text-accent font-bold uppercase tracking-ultra text-[11px] mb-4">Our Approach</h2>
+                <h3 class="serif text-5xl text-primary mb-8 leading-tight">Elegance in Every <br>Detail</h3>
+                <p class="text-slate/60 text-lg leading-relaxed mb-8">Interior design at TCR Builders is more than just choosing furniture. It's about lighting, ergonomics, and creating a flow that feels natural and luxurious. We work with premium materials and custom-built solutions to ensure your home tells your story.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4" data-aos="fade-left">
+                <div class="aspect-square overflow-hidden shadow-xl"><img src="{% static 'images/sebintcr0011.jpg' %}" class="w-full h-full object-cover"></div>
+                <div class="aspect-square overflow-hidden shadow-xl mt-12"><img src="{% static 'images/sebintcrbuildersaboutimg.jpg' %}" class="w-full h-full object-cover"></div>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- Key Specialties Grid -->
+  <section class="py-24 bg-slate-50 border-t border-slate-100">
+    <div class="max-w-7xl mx-auto px-8">
+        <div class="text-center mb-20">
+            <h2 class="text-accent font-bold uppercase tracking-ultra text-[11px] mb-4">Specialties</h2>
+            <h3 class="serif text-5xl text-primary">Interior Craftsmanship</h3>
+        </div>
+        <div class="grid lg:grid-cols-4 gap-8">
+            <div class="interior-card p-10 bg-white text-center" data-aos="fade-up" data-aos-delay="100">
+                <i class="fa-solid fa-couch text-accent text-3xl mb-6"></i>
+                <h4 class="serif text-xl mb-4">Living Area</h4>
+                <p class="text-slate/50 text-xs leading-relaxed">Spacious, inviting designs that serve as the heart of your home.</p>
+            </div>
+            <div class="interior-card p-10 bg-white text-center" data-aos="fade-up" data-aos-delay="200">
+                <i class="fa-solid fa-utensils text-accent text-3xl mb-6"></i>
+                <h4 class="serif text-xl mb-4">Modular Kitchen</h4>
+                <p class="text-slate/50 text-xs leading-relaxed">Ergonomic layouts and premium finishes for modern culinary spaces.</p>
+            </div>
+            <div class="interior-card p-10 bg-white text-center" data-aos="fade-up" data-aos-delay="300">
+                <i class="fa-solid fa-bed text-accent text-3xl mb-6"></i>
+                <h4 class="serif text-xl mb-4">Bedroom Sets</h4>
+                <p class="text-slate/50 text-xs leading-relaxed">Private sanctuaries crafted with custom storage and soothing palettes.</p>
+            </div>
+            <div class="interior-card p-10 bg-white text-center" data-aos="fade-up" data-aos-delay="400">
+                <i class="fa-solid fa-lightbulb text-accent text-3xl mb-6"></i>
+                <h4 class="serif text-xl mb-4">Mood Lighting</h4>
+                <p class="text-slate/50 text-xs leading-relaxed">Strategic illumination to enhance the architecture of your room.</p>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- Final Footer (Matches Home Page Exactly) -->
+  <footer class="bg-primary text-white pt-16 pb-8 text-left">
+    <div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+      <div>
+        <div class="flex items-center gap-3 mb-6">
+          <img src="{% static 'images/pixelcut-export.png' %}" alt="Logo" class="h-8">
+          <span class="text-lg font-bold tracking-tighter serif uppercase text-white">TCR Builders</span>
+        </div>
+        <p class="text-white/40 text-[11px]">Architectural precision across India.</p>
+      </div>
+
+      <div>
+        <h4 class="text-[10px] font-bold uppercase tracking-ultra mb-6 text-accent">Quick Links</h4>
+        <ul class="space-y-3 text-[11px] text-white/50">
+          <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+          <li><a href="/#about" class="hover:text-white transition-colors">About Us</a></li>
+          <li><a href="/#projects" class="hover:text-white transition-colors">Projects</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-[10px] font-bold uppercase tracking-ultra mb-6 text-accent">Contact</h4>
+        <ul class="space-y-3 text-[11px] text-white/60">
+          <li><a href="tel:+918138008446" class="hover:text-white flex items-center gap-3"><i class="fas fa-phone text-white/40"></i> +91 8138008446</a></li>
+          <li><a href="mailto:tcrbuildersinteriors@gmail.com" class="hover:text-white flex items-center gap-3"><i class="fas fa-envelope text-white/40"></i> tcrbuildersinteriors@gmail.com</a></li>
+          <li><a href="https://maps.app.goo.gl/NWsZ84NeTpJi7kGF9?g_st=aw" target="_blank" class="hover:text-white flex items-center gap-3"><i class="fas fa-location-dot text-white/40"></i> Visit Us</a></li>
+        </ul>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h4 class="text-[10px] font-bold uppercase tracking-ultra text-accent">Connect</h4>
+        <div class="flex gap-4">
+          <a href="https://www.facebook.com/share/p/1GuLaksBgW/" target="_blank" class="text-white/40 hover:text-white text-xl transition-colors"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/tcr_builders?igsh=MWp3ZDdmNGt1bG10cg==" target="_blank" class="text-white/40 hover:text-white text-xl transition-colors"><i class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/918138008446" target="_blank" class="text-white/40 hover:text-white text-xl transition-colors"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-8 pt-8 border-t border-white/5 text-center">
+      <p class="text-[9px] uppercase tracking-[0.4em] text-white/20">© 2026 TCR Builders. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1200, once: true });
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      window.scrollY > 80 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
+    });
+  </script>
+</body>
+</html>
